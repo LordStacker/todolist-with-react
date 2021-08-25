@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [tarea, setTarea] = useState([]);
-  const [listareas, setListareas] = useState('');
+  const [listareas, setListareas] = useState([]);
+  const [tareas, setTareas] = useState('');
 
 
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setTarea([...tarea, listareas]);
-  }
-  const handleChange = (evento) => {
-    setListareas(evento.target.value);
-  }
+    setListareas([...listareas, tareas]);
+  };
+  const handleChange = (e) => {
+    setTareas(e.target.value);
+  };  
+  const deleteTask = (key) => {
+    setListareas(listareas.filter((item,index) => index !== key));
+    console.log(key);
+  };
   return (
     <div className="App">
       <h1>Todo List</h1>
@@ -21,12 +25,11 @@ function App() {
         <form onSubmit={onSubmit}>
           <div className="col-md-8 mx-auto" >
             <div className="input-group">
-              <input type="text" className="form-control" aria-label="Text input with radio button" value={listareas} onChange={handleChange} placeholder="Actividad a agregar" />
-              <button className="btn  btn-primary mx-auto" type="submit" value="submit">Add to list!</button>
+              <input type="text" className="form-control" aria-label="Text input with radio button" value={tareas} onChange={handleChange} placeholder="Actividad a agregar" />
             </div>
-            <ul>
+            <ul className="list-group">
               {
-                tarea.map((li, key) => <li {...{ key }}>{li}</li>)
+                listareas.map((li, key) => <li className="list-group-item" key={key} >{li}<span className="close" onClick={() => deleteTask(key)}>X</span></li>)
               }
             </ul>
           </div>
